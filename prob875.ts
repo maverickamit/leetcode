@@ -9,28 +9,20 @@ function minEatingSpeed(piles: number[], h: number): number {
     piles.forEach((num) => (h += Math.ceil(num / k)));
     return h;
   };
-  let ans = 0;
   let startValue = 1;
   let endValue = maxValuePile;
+  let ans = endValue;
   let middleValue: number, hoursNeeded: number;
 
-  while (endValue - startValue > 1) {
+  while (startValue <= endValue) {
     middleValue = Math.floor((startValue + endValue) / 2);
     hoursNeeded = findHoursNeeded(middleValue);
-    ans = middleValue;
-    if (hoursNeeded > h) {
-      startValue = middleValue;
-    } else if (hoursNeeded < h) {
-      endValue = middleValue;
+    if (hoursNeeded <= h) {
+      ans = middleValue;
+      endValue = middleValue - 1;
     } else {
-      break;
+      startValue = middleValue + 1;
     }
-  }
-  while (findHoursNeeded(ans) <= h) {
-    ans--;
-  }
-  while (findHoursNeeded(ans) > h) {
-    ans++;
   }
   return ans;
 }
