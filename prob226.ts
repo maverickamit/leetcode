@@ -10,17 +10,19 @@ class TreeNode {
 }
 
 function invertTree(root: TreeNode | null): TreeNode | null {
-  let invertedNode: TreeNode | null = root;
-  if (root?.left && root?.right) {
-    invertedNode = new TreeNode(
-      root.val,
-      invertTree(root.right),
-      invertTree(root.left)
-    );
-  } else if (root?.left) {
-    invertedNode = new TreeNode(root.val, null, invertTree(root.left));
-  } else if (root?.right) {
-    invertedNode = new TreeNode(root?.val, invertTree(root.right), null);
+  if (!root) return null;
+  if (!root.right) {
+    root.right = invertTree(root.left);
+    root.left = null;
+    return root;
   }
-  return invertedNode;
+  if (!root.left) {
+    root.left = invertTree(root.right);
+    root.right = null;
+    return root;
+  }
+  const tmp = root.right;
+  root.right = invertTree(root.left);
+  root.left = invertTree(tmp);
+  return root;
 }
