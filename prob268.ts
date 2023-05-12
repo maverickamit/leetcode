@@ -1,8 +1,7 @@
 function missingNumber(nums: number[]): number {
-  let len = nums.length;
   let sum = 0;
-  for (let i = 0; i < len; i++) {
-    sum += nums[i];
+  for (let i = 0; i < nums.length; i++) {
+    sum = sum ^ nums[i] ^ (i + 1);
   }
-  return (len * (len + 1)) / 2 - sum;
+  return sum;
 }
