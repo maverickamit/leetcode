@@ -1,13 +1,12 @@
 function containsDuplicate(nums: number[]): boolean {
-  nums.sort(function (a, b) {
-    return a - b;
-  });
-  let ans = false;
-  let length = nums.length - 1;
-  for (let i = 0; i < length; i++) {
-    if (nums[i] === nums[i + 1]) {
-      ans = true;
+  const set = new Set();
+  for (let i = 0; i < nums.length; i++) {
+    const val = nums[i];
+    if (set.has(val)) {
+      return true;
+    } else {
+      set.add(val);
     }
   }
-  return ans;
+  return false;
 }
