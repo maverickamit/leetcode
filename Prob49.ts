@@ -1,18 +1,13 @@
 interface Characters {
-  [charIndex: number]: number; //charIndex starts at 0 for a to 25 for z
-}
-
-interface GroupedAnagrams {
-  [jsonKey: string]: string[];
+  [char: string]: number; //char range a to z
 }
 
 function groupAnagrams(strs: string[]) {
-  let groupedAnagrams: GroupedAnagrams = {};
+  let groupedAnagramsMap = new Map<string, string[]>();
   //Counting values of characters against their index number
   for (let i = 0; i < strs.length; i++) {
     let val = strs[i];
     let charactersObj: Characters = {};
-
     for (let j = 0; j < 26; j++) {
       charactersObj[j] = 0;
     }
@@ -22,13 +17,17 @@ function groupAnagrams(strs: string[]) {
         charactersObj[val[i].charCodeAt(0) - 97]++;
       }
     }
+
     let jsonKey = JSON.stringify(charactersObj);
-    if (groupedAnagrams[jsonKey]) {
-      groupedAnagrams[jsonKey].push(val);
+    if (groupedAnagramsMap.has(jsonKey)) {
+      let valuesArr = groupedAnagramsMap.get(jsonKey);
+      if (valuesArr !== undefined) {
+        valuesArr.push(val);
+        groupedAnagramsMap.set(jsonKey, valuesArr);
+      }
     } else {
-      groupedAnagrams[jsonKey] = [val];
+      groupedAnagramsMap.set(jsonKey, [val]);
     }
   }
-
-  return Object.values(groupedAnagrams);
+  return Array.from(groupedAnagramsMap.values());
 }
