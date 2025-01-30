@@ -12,9 +12,9 @@ class Solution:
         prev = None
         ans= None
 
-        while list1 or list2 :
-            val1 = list1.val if list1 else list2.val+1
-            val2 = list2.val if list2 else list1.val+1
+        while list1 and list2 :
+            val1 = list1.val
+            val2 = list2.val
             if val2<val1:
                 curr_val = val2
                 list2 = list2.next
@@ -27,6 +27,11 @@ class Solution:
             else:
                 prev = ListNode(curr_val)
                 ans = prev
+
+        if prev:
+            prev.next = list1 if list1 else list2
+        else:
+            return list1 if list1 else list2
 
         return ans
 
